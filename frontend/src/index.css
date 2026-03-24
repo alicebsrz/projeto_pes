@@ -1,0 +1,32 @@
+/* Arquivo: frontend/src/index.css */
+
+/* Importando uma fonte limpa e moderna do Google Fonts (Inter) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+/* Definindo variáveis de cores inspiradas na sua imagem */
+
+:root {
+  /* Sua nova paleta de cores */
+  --cor-verde-escuro: #006400;
+  --cor-verde-claro: #9ACD32;
+  --cor-laranja-escuro: #FF8C00;
+  --cor-laranja: #FFA500;
+  
+  /* Cores estruturais */
+  --cor-fundo-tela: #F4F7F6; /* Fundo cinza/esverdeado bem claro */
+  --cor-branco: #FFFFFF;
+  --cor-texto: #333333;
+}
+
+/* Resetando margens e aplicando a cor de fundo no site todo */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--cor-fundo-tela);
+  color: var(--cor-texto);
+}
