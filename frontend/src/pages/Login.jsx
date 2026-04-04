@@ -1,18 +1,17 @@
 // Arquivo: frontend/src/pages/Login.jsx
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Lock, Mail, User, CheckCircle, AlertOctagon } from 'lucide-react';
+import { Lock, Mail, User, CheckCircle, AlertOctagon, Key } from 'lucide-react';
 import logoImg from '../assets/logo.png'; // Reaproveitando a sua logo!
 
 // Recebemos a função 'setToken' do App.jsx para avisar que o login deu certo
 function Login({ setToken }) {
   // Estado para alternar entre a tela de "Login" e "Cadastro"
-  const [modoLogin, setModoLogin] = useState(true); 
-  
-  // Estados dos campos do formulário
+  const [modoLogin, setModoLogin] = useState(true);
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
+  const [codigoEmpresa, setCodigoEmpresa] = useState('');
   const [mensagem, setMensagem] = useState({ texto: '', tipo: '' });
 
   // Função disparada ao enviar o formulário
@@ -37,11 +36,11 @@ function Login({ setToken }) {
 
       } else {
         // --- FLUXO DE CADASTRO ---
-        await axios.post('http://localhost:3000/auth/cadastro', { nome, email, senha });
-        
+        await axios.post('http://localhost:3000/auth/cadastro', { nome, email, senha, codigo_empresa: codigoEmpresa });
         setMensagem({ texto: 'Cadastro realizado! Agora você pode fazer o login.', tipo: 'sucesso' });
         setModoLogin(true); // Muda para a aba de login automaticamente
         setSenha(''); // Limpa a senha por segurança
+        setCodigoEmpresa(''); // Limpa o código também
       }
     } catch (erro) {
       const msgErro = erro.response?.data?.erro || 'Erro ao conectar com o servidor.';
@@ -81,18 +80,25 @@ function Login({ setToken }) {
         {/* Formulário */}
         <form onSubmit={handleSubmit} style={estilos.formulario}>
           
-          {/* O campo Nome só aparece se NÃO estiver no modo de login */}
+          {/* Campos exclusivos do Cadastro */}
           {!modoLogin && (
-            <div style={estilos.grupoInput}>
-              <label style={estilos.label}>Nome Completo</label>
-              <div style={estilos.caixaInput}>
-                <User size={18} color="#94a3b8" />
-                <input 
-                  type="text" required style={estilos.input} placeholder="Ex: João da Silva"
-                  value={nome} onChange={(e) => setNome(e.target.value)}
-                />
+            <>
+              <div style={estilos.grupoInput}>
+                <label style={estilos.label}>Nome Completo</label>
+                <div style={estilos.caixaInput}>
+                  <User size={18} color="#94a3b8" />
+                  <input type="text" required style={estilos.input} placeholder="Ex: João da Silva" value={nome} onChange={(e) => setNome(e.target.value)} />
+                </div>
               </div>
-            </div>
+              {/* Novo campo: Código da Empresa */}
+              <div style={estilos.grupoInput}>
+                <label style={estilos.label}>Código da Empresa</label>
+                <div style={estilos.caixaInput}>
+                  <Key size={18} color="var(--cor-laranja-escuro)" />
+                  <input type="text" required style={estilos.input} placeholder="Ex: 123456ABC" value={codigoEmpresa} onChange={(e) => setCodigoEmpresa(e.target.value)} />
+                </div>
+              </div>
+            </>
           )}
 
           <div style={estilos.grupoInput}>
